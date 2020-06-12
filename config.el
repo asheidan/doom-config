@@ -54,6 +54,11 @@
     (concat org-directory (format-time-string "/%Y/%m %B/%Y-%m-%d.org" (current-time))))
   :custom
   (org-startup-folded t)
+
+  (org-log-done 'time "Logging when tasks are done")
+  (org-log-into-drawer "LOGBOOK")
+  (org-log-state-notes-insert-after-drawers t)
+
   ; Agenda
   (org-deadline-warning-days 5)
   (org-agenda-span 'day "Show single day by default")
