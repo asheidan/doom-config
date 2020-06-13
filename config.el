@@ -11,6 +11,22 @@
 
 (setq system-time-locale "en_GB.UTF-8")
 
+;; Fix option-key
+;(setq default-input-method "MacOSX")
+;(defvar mac-command-modifier)
+;(defvar mac-allow-anti-aliasing)
+;(defvar mac-command-key-is-meta)
+(if (string-equal system-type "darwin")
+    (setq mac-option-modifier nil
+      mac-command-modifier 'meta
+      mac-allow-anti-aliasing t
+      mac-command-key-is-meta t))
+;(defvar x-meta-keysym)
+;(defvar x-super-keysym)
+(if (string-equal system-type "gnu/linux")
+    (setq x-meta-keysym 'super
+          x-super-keysym 'meta))
+
 ;; Doom exposes five (optional) variables for controlling fonts in Doom. Here
 ;; are the three important ones:
 ;;
