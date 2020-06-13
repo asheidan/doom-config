@@ -9,6 +9,8 @@
 (setq user-full-name "Emil Eriksson"
       user-mail-address "emil.eriksson@codemill.se")
 
+(setq system-time-locale "en_GB.UTF-8")
+
 ;; Doom exposes five (optional) variables for controlling fonts in Doom. Here
 ;; are the three important ones:
 ;;
