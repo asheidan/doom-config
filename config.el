@@ -160,10 +160,15 @@
      (:name "Waiting"
       :todo "WAIT"
       :order 100)))
-  :bind
-  (:map org-super-agenda-header-map
-   ("k" . evil-previous-line)
-   ("j" . evil-next-line)))
+  ;:bind (:map org-super-agenda-header-map ("k" . evil-previous-line) ("j" . evil-next-line))
+  )
+(map! :map org-mode-map
+      :localleader "s c" #'org-columns)
+
+(map! :map org-super-agenda-header-map
+      :n
+      "k" #'evil-previous-line
+      "j" #'evil-next-line)
 
 
 (defun my-ignore-pycache (filename absolute-path)
