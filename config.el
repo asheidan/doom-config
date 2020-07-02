@@ -63,6 +63,7 @@
                            "~/Worklog/inbox.org"
                            "~/Worklog/2020/05 May"
                            "~/Worklog/2020/06 June"
+                           "~/Worklog/2020/07 July"
                            "~/Worklog/Codemill"))
   (setq +org-capture-todo-file "inbox.org")
   :config
