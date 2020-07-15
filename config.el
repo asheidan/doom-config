@@ -55,15 +55,14 @@
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
 
-
 (use-package! org
   :init
   (setq org-directory "~/Worklog/")
   (setq org-agenda-files '("~/Worklog/current.org"
                            "~/Worklog/inbox.org"
-                           "~/Worklog/2020/05 May"
                            "~/Worklog/2020/06 June"
                            "~/Worklog/2020/07 July"
+                           "~/Worklog/2020/08 August"
                            "~/Worklog/Codemill"))
   (setq +org-capture-todo-file "inbox.org")
   :config
