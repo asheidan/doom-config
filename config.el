@@ -135,7 +135,8 @@
 
 (use-package! org-roam
   :custom
-  (org-roam-directory "~/Brain"))
+  (org-roam-directory "~/Brain")
+  (org-roam-tag-sources '(prop all-directories)))
 
 
 (defun my-days-ago (days)
