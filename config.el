@@ -135,7 +135,22 @@
 (use-package! org-roam
   :custom
   (org-roam-directory "~/Brain")
-  (org-roam-tag-sources '(prop all-directories)))
+  (org-roam-tag-sources '(prop all-directories))
+  (org-roam-capture-templates '(("d" "default" plain (function org-roam--capture-get-point)
+                                 "%?"
+                                 :file-name "%<%Y%m%d%H%M%S>-${slug}"
+                                 :head "#+title: ${title}\n"
+                                 :unnarrowed t)
+                                ("y" "Youtube" plain (function org-roam--capture-get-point)
+                                 "%?"
+                                 :file-name "Youtube/%<%Y%m%d%H%M%S>-${slug}"
+                                 :head "#+title: ${title}\n"
+                                 :unnarrowed t)
+                                ("g" "Game" plain (function org-roam--capture-get-point)
+                                 "%?"
+                                 :file-name "Game/%<%Y%m%d%H%M%S>-${slug}"
+                                 :head "#+title: ${title}\n"
+                                 :unnarrowed t))))
 
 
 (defun my-days-ago (days)
