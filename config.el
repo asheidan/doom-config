@@ -56,7 +56,7 @@
 ;; change `org-directory'. It must be set before org loads!
 
 (use-package! org
-  :init
+  :config
   (setq org-directory "~/Worklog/")
   (setq org-agenda-files '("~/Worklog/current.org"
                            "~/Worklog/inbox.org"
@@ -65,11 +65,26 @@
                            "~/Worklog/2020/08 August"
                            "~/Worklog/Codemill"))
   (setq +org-capture-todo-file "inbox.org")
-  :config
   (remove-hook 'org-mode-hook #'org-superstar-mode)
   (defun my-refile-targets ()
     (interactive)
     (concat org-directory (format-time-string "/%Y/%m %B/%Y-%m-%d.org" (current-time))))
+
+  ; These variables need to be set here since doom does not
+  ; respect the custom values for these.
+  (setq org-deadline-warning-days 5)
+  (setq org-agenda-span 'day) ;"Show single day by default"
+  (setq org-agenda-start-day nil) ;"Start the agenda today"
+  (setq org-todo-keywords '((sequence "TODO(t)" "|" "DONE(d)")
+                            (sequence "WAIT(w@/!)" "|")
+                            (sequence "|" "CANCELED(c@)")
+                            (sequence "[ ](T)" "[-](S)" "[?](W)" "|" "[X](D)")))
+  (setq org-refile-targets '(("~/Worklog/current.org" :maxlevel . 1)
+                                        ;("~/Worklog/inbox.org" :level 0)
+                             ("~/Worklog/Codemill/recurring.org" :maxlevel . 1)
+                             ("~/Worklog/Codemill/longterm.org" :maxlevel . 1)
+                             (my-refile-targets :level . 1)))
+
   :custom
   (org-startup-folded t)
 
@@ -78,10 +93,7 @@
   (org-log-state-notes-insert-after-drawers t)
 
   ; Agenda
-  (org-deadline-warning-days 5)
-  (org-agenda-span 'day "Show single day by default")
   (org-agenda-start-on-weekday nil)
-  (org-agenda-start-day nil "Start the agenda today")
 
   (org-agenda-skip-deadline-if-done t)
   (org-agenda-skip-scheduled-if-done t)
@@ -107,9 +119,6 @@
   (org-clock-in-resume t "Resume clocking task on clock-in if the clock is open")
 
   ; Todo
-  (org-todo-keywords '((sequence "TODO(t)" "|" "DONE(d)")
-                       (sequence "WAIT(w@/!)" "|")
-                       (sequence "|" "CANCELED(c@)")))
   (org-highest-priority ?A)
   (org-default-priority ?C)
   (org-lowest-priority ?E)
@@ -118,11 +127,6 @@
   (org-outline-path-complete-in-steps nil)
   (org-refile-allow-creating-parent-nodes t)
   (org-refile-use-outline-path 'file)
-  (org-refile-targets '(("~/Worklog/current.org" :maxlevel . 1)
-                                        ;("~/Worklog/inbox.org" :level 0)
-                        ("~/Worklog/Codemill/recurring.org" :maxlevel . 1)
-                        ("~/Worklog/Codemill/longterm.org" :maxlevel . 1)
-                        (my-refile-targets :level . 1)))
 
   (org-tags-exclude-from-inheritance '("PROJECT" "GOAL"))
   (org-tag-alist '((:startgrouptag) ("work") (:grouptags) ("codemill") ("pro7") (:endgrouptag)
