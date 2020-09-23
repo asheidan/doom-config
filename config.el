@@ -52,6 +52,8 @@
 (setq doom-themes-treemacs-theme "doom-colors")
 (setq doom-themes-treemacs-enable-variable-pitch nil)
 
+(setq calendar-week-start-day 1)
+
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
 
@@ -60,11 +62,12 @@
   (setq org-directory "~/Worklog/")
   (setq org-agenda-files '("~/Worklog/current.org"
                            "~/Worklog/inbox.org"
-                           "~/Worklog/2020/06 June"
                            "~/Worklog/2020/07 July"
                            "~/Worklog/2020/08 August"
+                           "~/Worklog/2020/09 September"
                            "~/Worklog/Codemill"))
   (setq +org-capture-todo-file "inbox.org")
+  (setq-default org-eldoc-breadcrumb-separator " > ")
   :config
   (remove-hook 'org-mode-hook #'org-superstar-mode)
   (defun my-refile-targets ()
@@ -118,11 +121,11 @@
   (org-outline-path-complete-in-steps nil)
   (org-refile-allow-creating-parent-nodes t)
   (org-refile-use-outline-path 'file)
-  (org-refile-targets '(("~/Worklog/current.org" :maxlevel . 1)
+  (org-refile-targets '((my-refile-targets :level . 1)
+                        ("~/Worklog/current.org" :maxlevel . 1)
                                         ;("~/Worklog/inbox.org" :level 0)
                         ("~/Worklog/Codemill/recurring.org" :maxlevel . 1)
-                        ("~/Worklog/Codemill/longterm.org" :maxlevel . 1)
-                        (my-refile-targets :level . 1)))
+                        ("~/Worklog/Codemill/longterm.org" :maxlevel . 1)))
 
   (org-tags-exclude-from-inheritance '("PROJECT" "GOAL"))
   (org-tag-alist '((:startgrouptag) ("work") (:grouptags) ("codemill") ("pro7") (:endgrouptag)
@@ -198,6 +201,10 @@
   (treemacs-collapse-dirs 10)
   (treemacs-filewatch-mode t)
   (treemacs-show-hidden-files nil))
+
+; Documentation lookups
+; To open results from +lookup/online in EWW instead of your system browser, change +lookup-open-url-fn (default: #'browse-url):
+(setq +lookup-open-url-fn #'eww)
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
