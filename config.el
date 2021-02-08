@@ -60,75 +60,75 @@
 (use-package! org
   :init
   (setq org-directory "~/Worklog/")
-  (setq org-agenda-files '("~/Worklog/current.org"
-                           "~/Worklog/inbox.org"
-                           "~/Worklog/2020/07 July"
-                           "~/Worklog/2020/08 August"
-                           "~/Worklog/2020/09 September"
-                           "~/Worklog/Codemill"))
   (setq +org-capture-todo-file "inbox.org")
   (setq-default org-eldoc-breadcrumb-separator " > ")
+  (setq-default org-agenda-files '("~/Worklog/current.org"
+                                   "~/Worklog/inbox.org"
+                                   "~/Worklog/2020/12 December"
+                                   "~/Worklog/2021/01 January"
+                                   "~/Worklog/2021/02 February"
+                                   "~/Worklog/Codemill"))
   :config
   (remove-hook 'org-mode-hook #'org-superstar-mode)
   (defun my-refile-targets ()
     (interactive)
     (concat org-directory (format-time-string "/%Y/%m %B/%Y-%m-%d.org" (current-time))))
-  :custom
-  (org-startup-folded t)
+  ;:custom
+  (setq org-startup-folded t)
 
-  (org-log-done 'time "Logging when tasks are done")
-  (org-log-into-drawer "LOGBOOK")
-  (org-log-state-notes-insert-after-drawers t)
+  (setq org-log-done 'time)  ;Logging when tasks are done
+  (setq org-log-into-drawer "LOGBOOK")
+  (setq org-log-state-notes-insert-after-drawers t)
 
   ; Agenda
-  (org-deadline-warning-days 5)
-  (org-agenda-span 'day "Show single day by default")
-  (org-agenda-start-on-weekday nil)
-  (org-agenda-start-day nil "Start the agenda today")
+  (setq org-deadline-warning-days 5)
+  (setq org-agenda-span 'day)  ;Show single day by default
+  (setq org-agenda-start-on-weekday nil)
+  (setq org-agenda-start-day nil)  ;Start the agenda today
 
-  (org-agenda-skip-deadline-if-done t)
-  (org-agenda-skip-scheduled-if-done t)
-  (org-agenda-skip-scheduled-if-deadline-is-shown t)
+  (setq org-agenda-skip-deadline-if-done t)
+  (setq org-agenda-skip-scheduled-if-done t)
+  (setq org-agenda-skip-scheduled-if-deadline-is-shown t)
 
-  (org-agenda-time-grid '((daily today require-timed remove-match) (800 1000 1200 1400 1600 1800)
+  (setq org-agenda-time-grid '((daily today require-timed remove-match) (800 1000 1200 1400 1600 1800)
                           "......" "----------------"))
-  (org-agenda-clock-consistency-checks
+  (setq org-agenda-clock-consistency-checks
    '(:max-duration "10:00" :min-duration 1 :max-gap "0:05" :gap-ok-around ("4:00")
      :default-face ((:background "DarkRed") (:foreground "white"))
      :overlap-face nil :gap-face nil :no-end-time-face nil :long-face nil :short-face nil))
-  (org-agenda-clockreport-parameter-plist
+  (setq org-agenda-clockreport-parameter-plist
    '(:link t :maxlevel 3 :fileskip0 t :step day :stepskip0 t))
 
 
   ; Clocking
-  (org-clock-persist 'history)
-  (org-clock-persist-query-resume nil "Do not prompt to resume an active clock, just resume it")
+  (setq org-clock-persist 'history)
+  (setq org-clock-persist-query-resume nil)  ;Do not prompt to resume an active clock, just resume it
 
-  (org-clock-out-remove-zero-time-clocks t "Remove empty clocklines")
-  (org-clock-out-when-done nil "Should we clock-out when marking as done")
-  (org-clock-clocked-in-display nil "Don't display clock. Clock display does not seem to work with doom-modeline.")
-  (org-clock-in-resume t "Resume clocking task on clock-in if the clock is open")
+  (setq org-clock-out-remove-zero-time-clocks t)  ;Remove empty clocklines
+  (setq org-clock-out-when-done nil)  ;Should we clock-out when marking as done
+  (setq org-clock-clocked-in-display nil)  ;Don't display clock. Clock display does not seem to work with doom-modeline.
+  (setq org-clock-in-resume t)  ;Resume clocking task on clock-in if the clock is open
 
   ; Todo
-  (org-todo-keywords '((sequence "TODO(t)" "|" "DONE(d)")
+  (setq org-todo-keywords '((sequence "TODO(t)" "|" "DONE(d)")
                        (sequence "WAIT(w@/!)" "|")
                        (sequence "|" "CANCELED(c@)")))
-  (org-highest-priority ?A)
-  (org-default-priority ?C)
-  (org-lowest-priority ?E)
+  (setq org-highest-priority ?A)
+  (setq org-default-priority ?C)
+  (setq org-lowest-priority ?E)
 
   ; Refile
-  (org-outline-path-complete-in-steps nil)
-  (org-refile-allow-creating-parent-nodes t)
-  (org-refile-use-outline-path 'file)
-  (org-refile-targets '((my-refile-targets :level . 1)
+  (setq org-outline-path-complete-in-steps nil)
+  (setq org-refile-allow-creating-parent-nodes t)
+  (setq org-refile-use-outline-path 'file)
+  (setq org-refile-targets '((my-refile-targets :level . 1)
                         ("~/Worklog/current.org" :maxlevel . 1)
                                         ;("~/Worklog/inbox.org" :level 0)
                         ("~/Worklog/Codemill/recurring.org" :maxlevel . 1)
                         ("~/Worklog/Codemill/longterm.org" :maxlevel . 1)))
 
-  (org-tags-exclude-from-inheritance '("PROJECT" "GOAL"))
-  (org-tag-alist '((:startgrouptag) ("work") (:grouptags) ("codemill") ("pro7") (:endgrouptag)
+  (setq org-tags-exclude-from-inheritance '("PROJECT" "GOAL"))
+  (setq org-tag-alist '((:startgrouptag) ("work") (:grouptags) ("codemill") ("pro7") (:endgrouptag)
                    (:startgrouptag) ("pro7") (:grouptags) ("ucp") (:endgrouptag)
                    (:startgrouptag) ("codemill") (:grouptags) ("ap_com") (:endgrouptag)))
   :custom-face
@@ -136,10 +136,12 @@
 
 
 (use-package! org-roam
-  :custom
-  (org-roam-directory "~/Brain")
-  (org-roam-tag-sources '(prop all-directories))
-  (org-roam-capture-templates '(("d" "default" plain (function org-roam--capture-get-point)
+  ;:custom
+  :init
+  (setq org-roam-directory "~/Brain")
+  :config
+  (setq org-roam-tag-sources '(prop all-directories))
+  (setq org-roam-capture-templates '(("d" "default" plain (function org-roam--capture-get-point)
                                  "%?"
                                  :file-name "%<%Y%m%d%H%M%S>-${slug}"
                                  :head "#+title: ${title}\n"
@@ -165,8 +167,8 @@
   :init
   (org-super-agenda-mode)
   :config
-  :custom
-  (org-super-agenda-groups
+  ;:custom
+  (setq org-super-agenda-groups
    `((:name "Schedule"
       :time-grid t)
      (:name "Important"
