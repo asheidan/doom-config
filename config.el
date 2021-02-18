@@ -61,7 +61,6 @@
   :init
   (setq org-directory "~/Worklog/")
   (setq +org-capture-todo-file "inbox.org")
-  (setq-default org-eldoc-breadcrumb-separator " > ")
   (setq-default org-agenda-files '("~/Worklog/current.org"
                                    "~/Worklog/inbox.org"
                                    "~/Worklog/2020/12 December"
@@ -69,6 +68,7 @@
                                    "~/Worklog/2021/02 February"
                                    "~/Worklog/Codemill"))
   :config
+  (setq org-eldoc-breadcrumb-separator " > ") ; Tried with setq-default and :init which didn't seem to work
   (remove-hook 'org-mode-hook #'org-superstar-mode)
   (defun my-refile-targets ()
     (interactive)
