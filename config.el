@@ -134,6 +134,9 @@
   :custom-face
   (org-drawer ((t (:inherit org-meta-line)))))
 
+(after! org-roam
+  ; Workaround for https://github.com/org-roam/org-roam/issues/1400
+  (setq org-roam-db-location "~/.emacs.d/.local/etc/org-roam.workaround.db"))
 
 (use-package! org-roam
   ;:custom
