@@ -158,7 +158,13 @@
                                  "%?"
                                  :file-name "Game/%<%Y%m%d%H%M%S>-${slug}"
                                  :head "#+title: ${title}\n"
-                                 :unnarrowed t))))
+                                 :unnarrowed t)))
+  (setq org-roam-dailies-directory "Daily/")
+  (setq org-roam-dailies-capture-templates
+        '(("d" "daily" plain #'org-roam-capture--get-point ""
+           :immediate-finish t
+           :file-name "Daily/%<%Y/%Y-%m-%d>"
+           :head "#+title: %<%Y-%m-%d>"))))
 
 
 (defun my-days-ago (days)
