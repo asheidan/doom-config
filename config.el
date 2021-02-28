@@ -161,10 +161,16 @@
                                  :unnarrowed t)))
   (setq org-roam-dailies-directory "Daily/")
   (setq org-roam-dailies-capture-templates
-        '(("d" "daily" plain #'org-roam-capture--get-point ""
-           :immediate-finish t
+        '(("d" "daily" entry
+           #'org-roam-capture--get-point
+           "* %<%H:%M>\n%?"
+           ;:immediate-finish t  ; This would end the capture directly
+           ;:unnarrowd t  ; This would show the entire file after capture
            :file-name "Daily/%<%Y/%Y-%m-%d>"
-           :head "#+title: %<%Y-%m-%d>"))))
+           :olp ("Journal")
+           :head "#+title: %<%Y-%m-%d>\n\n"))))
+(map! :leader
+      :desc "" "n r d c" #'org-roam-dailies-capture-today)
 
 
 (defun my-days-ago (days)
