@@ -170,7 +170,7 @@
            :olp ("Journal")
            :head "#+title: %<%Y-%m-%d>\n\n"))))
 (map! :leader
-      :desc "" "n r d c" #'org-roam-dailies-capture-today)
+      :desc "Capture daily note" "n r d c" #'org-roam-dailies-capture-today)
 
 
 (defun my-days-ago (days)
