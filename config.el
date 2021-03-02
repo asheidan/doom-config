@@ -77,7 +77,7 @@
     (interactive)
     (concat org-directory (format-time-string "/%Y/%m %B/%Y-%m-%d.org" (current-time))))
   ;:custom
-  (setq org-startup-folded t)
+  (setq org-startup-folded nil)
 
   (setq org-log-done 'time)  ;Logging when tasks are done
   (setq org-log-into-drawer "LOGBOOK")
