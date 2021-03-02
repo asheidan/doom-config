@@ -61,12 +61,15 @@
   :init
   (setq org-directory "~/Worklog/")
   (setq +org-capture-todo-file "inbox.org")
-  (setq-default org-agenda-files '("~/Worklog/current.org"
-                                   "~/Worklog/inbox.org"
-                                   "~/Worklog/2020/12 December"
-                                   "~/Worklog/2021/01 January"
-                                   "~/Worklog/2021/02 February"
-                                   "~/Worklog/Codemill"))
+  (require 'time-date)  ; Required for decoded-time-add
+  (setq-default org-agenda-files (append
+                                  '("~/Worklog/current.org" "~/Worklog/inbox.org" "~/Worklog/Codemill") ; Hardcoded list that should always be included
+                                  (let* ((decoded-time (decode-time (current-time)))  ; Create a list of folders for the last three months
+                                         (month-adder (lambda (m)
+                                                        (format-time-string "~/Worklog/%Y/%m %B"
+                                                                            (encode-time (decoded-time-add decoded-time
+                                                                                                           (make-decoded-time :month m)))))))
+                                    (mapcar month-adder '(0 -1 -2)))))
   :config
   (setq org-eldoc-breadcrumb-separator " > ") ; Tried with setq-default and :init which didn't seem to work
   (remove-hook 'org-mode-hook #'org-superstar-mode)
