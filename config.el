@@ -63,19 +63,24 @@
   (setq +org-capture-todo-file "inbox.org")
   (require 'time-date)  ; Required for decoded-time-add
   (setq-default org-agenda-files (append
-                                  '("~/Worklog/current.org" "~/Worklog/inbox.org" "~/Worklog/Codemill") ; Hardcoded list that should always be included
+                                  '("~/Worklog/current.org" "~/Worklog/inbox.org" "~/Worklog/OneGroup" "~/Worklog/Codemill") ; Hardcoded list that should always be included
                                   (let* ((decoded-time (decode-time (current-time)))  ; Create a list of folders for the last three months
                                          (month-adder (lambda (m)
                                                         (format-time-string "~/Worklog/%Y/%m %B"
                                                                             (encode-time (decoded-time-add decoded-time
                                                                                                            (make-decoded-time :month m)))))))
-                                    (mapcar month-adder '(0 -1 -2)))))
+                                    (mapcar month-adder '(0 -1)))))
   :config
   (setq org-eldoc-breadcrumb-separator " > ") ; Tried with setq-default and :init which didn't seem to work
   (remove-hook 'org-mode-hook #'org-superstar-mode)
   (defun my-refile-targets ()
     (interactive)
-    (concat org-directory (format-time-string "/%Y/%m %B/%Y-%m-%d.org" (current-time))))
+    (let* ((decoded-time (decode-time (current-time)))
+           (day-adder (lambda (d)
+                        (concat org-directory (format-time-string "/%Y/%m %B/%Y-%m-%d.org"
+                                            (encode-time (decoded-time-add decoded-time
+                                                                          (make-decoded-time :day d))))))))
+      (mapcar day-adder '(0 -1))))
   ;:custom
   (setq org-startup-folded nil)
 
@@ -102,6 +107,15 @@
   (setq org-agenda-clockreport-parameter-plist
    '(:link t :maxlevel 3 :fileskip0 t :step day :stepskip0 t))
 
+  (setq org-agenda-custom-commands
+        '(("n" "Agenda and all TODOs"
+           ((agenda "")
+            (alltodo "")))
+          ("u" "Unscheduled TODOs"
+           ((todo ""
+                  ((org-agenda-overriding-header "\n Unscheduled TODOs")
+                   (org-agenda-skip-function '(org-agenda-skip-entry-if 'scheduled))))))))
+
 
   ; Clocking
   (setq org-clock-persist 'history)
@@ -127,8 +141,8 @@
   (setq org-refile-targets '((my-refile-targets :level . 1)
                         ("~/Worklog/current.org" :maxlevel . 1)
                                         ;("~/Worklog/inbox.org" :level 0)
-                        ("~/Worklog/Codemill/recurring.org" :maxlevel . 1)
-                        ("~/Worklog/Codemill/longterm.org" :maxlevel . 1)))
+                        ("~/Worklog/OneGroup/recurring.org" :maxlevel . 1)
+                        ("~/Worklog/OneGroup/longterm.org" :maxlevel . 1)))
 
   (setq org-tags-exclude-from-inheritance '("PROJECT" "GOAL"))
   (setq org-tag-alist '((:startgrouptag) ("work") (:grouptags) ("codemill") ("pro7") (:endgrouptag)
@@ -166,12 +180,12 @@
   (setq org-roam-dailies-capture-templates
         '(("d" "daily" entry
            #'org-roam-capture--get-point
-           "* %<%H:%M>\n%?"
+           "\n* %<%H:%M>\n%?"
            ;:immediate-finish t  ; This would end the capture directly
            ;:unnarrowd t  ; This would show the entire file after capture
            :file-name "Daily/%<%Y/%Y-%m-%d>"
            :olp ("Journal")
-           :head "#+title: %<%Y-%m-%d>\n\n"))))
+           :head "#+title: %<%Y-%m-%d>\n"))))
 (map! :leader
       :desc "Capture daily note" "n r d c" #'org-roam-dailies-capture-today)
 
@@ -180,6 +194,8 @@
   (format-time-string "%Y-%m-%d"
                       (time-subtract (current-time)
                                      (days-to-time days))))
+
+; TODO: Change this to the macro provided by doom
 (use-package org-super-agenda
   :after org-agenda
   :init
@@ -192,6 +208,9 @@
      (:name "Important"
       :and (:priority "A"
             :todo "TODO"))
+     (:name "Today"
+      :scheduled today
+      :deadline today)
      (:name "Stale"
       :scheduled (before ,(my-days-ago 30))
       :deadline (before ,(my-days-ago 30))
