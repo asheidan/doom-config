@@ -63,7 +63,8 @@
   (setq +org-capture-todo-file "inbox.org")
   (require 'time-date)  ; Required for decoded-time-add
   (setq-default org-agenda-files (append
-                                  '("~/Worklog/current.org" "~/Worklog/inbox.org" "~/Worklog/OneGroup" "~/Worklog/Codemill") ; Hardcoded list that should always be included
+                                  '("~/Worklog/current.org" "~/Worklog/gtd.org"
+                                    "~/Worklog/inbox.org" "~/Worklog/OneGroup") ; Hardcoded list that should always be included
                                   (let* ((decoded-time (decode-time (current-time)))  ; Create a list of folders for the last three months
                                          (month-adder (lambda (m)
                                                         (format-time-string "~/Worklog/%Y/%m %B"
@@ -89,6 +90,8 @@
   (setq org-log-state-notes-insert-after-drawers t)
 
   ; Agenda
+  (setq org-stuck-projects
+        '("+project/-DONE" ("TODO") nil ""))
   (setq org-deadline-warning-days 5)
   (setq org-agenda-span 'day)  ;Show single day by default
   (setq org-agenda-start-on-weekday nil)
